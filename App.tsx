@@ -263,28 +263,38 @@ function AuthorBadge({
   onClick,
   buttonRef,
   isNudging = false,
+  showPulse = false,
 }: {
   onClick: () => void;
   buttonRef?: React.RefObject<HTMLButtonElement | null>;
   isNudging?: boolean;
+  showPulse?: boolean;
 }) {
   return (
-    <button
-      ref={buttonRef}
-      type="button"
-      onClick={onClick}
-      className={`pointer-events-auto relative h-24 w-24 shrink-0 rounded-full bg-white transition-transform duration-150 hover:scale-[1.02] active:scale-[0.96] ${isNudging ? 'animate-author-avatar-nudge' : ''}`}
-    >
-      <div className="absolute inset-0 rounded-full border-[3px] border-[#8e22a7] shadow-[0_8px_20px_rgba(122,33,146,0.14)]" />
-      <div className="absolute inset-[2px] overflow-hidden rounded-full bg-white">
-        <img
-          src={authorProfile}
-          alt="Author profile"
-          className="h-full w-full scale-[0.88] object-contain"
-          draggable={false}
+    <div className="relative h-24 w-24 shrink-0">
+      {showPulse && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-[-6px] rounded-full border-[3px] app-accent-pulse-ring animate-author-avatar-pulse-ring"
         />
-      </div>
-    </button>
+      )}
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={onClick}
+        className={`pointer-events-auto relative h-24 w-24 cursor-pointer rounded-full bg-white transition-transform duration-150 hover:scale-[1.02] active:scale-[0.96] ${isNudging ? 'animate-author-avatar-nudge' : ''}`}
+      >
+        <div className="app-accent-ring absolute inset-0 rounded-full border-[3px]" />
+        <div className="absolute inset-[2px] overflow-hidden rounded-full bg-white">
+          <img
+            src={authorProfile}
+            alt="Author profile"
+            className="h-full w-full scale-[0.88] object-contain"
+            draggable={false}
+          />
+        </div>
+      </button>
+    </div>
   );
 }
 
@@ -355,7 +365,16 @@ function NotchedPopoverShell({
   notchSide?: "top" | "bottom";
 }) {
   return (
-    <div className="pointer-events-none fixed animate-popover-enter" style={{ left: position.left, top: position.top, width: position.width, zIndex }}>
+    <div
+      className="pointer-events-none fixed animate-popover-enter"
+      style={{
+        left: position.left,
+        top: position.top,
+        width: position.width,
+        zIndex,
+        transformOrigin: `${position.arrowLeft}px ${notchSide === "top" ? "0px" : "100%"}`
+      }}
+    >
       <div
         className={`absolute h-[18px] w-[77px] ${notchSide === "top" ? "top-[-10px]" : "bottom-[-10px]"}`}
         style={{ left: position.arrowLeft - 38.5 }}
@@ -432,7 +451,7 @@ function SpeechBubble({ instruction, onNext, onClose, currentStep, totalSteps, a
               <Button
                 onClick={onNext}
                 disabled={!canAdvance}
-                className="h-10 rounded-xl bg-[#302f2a] px-5 text-[14px] font-medium text-white shadow-[0_4px_12px_rgba(48,47,42,0.18)] hover:bg-[#25241f] disabled:bg-[#c7c8d1] disabled:text-white disabled:shadow-none"
+                className="h-10 cursor-pointer rounded-xl bg-[#302f2a] px-5 text-[14px] font-medium text-white shadow-[0_4px_12px_rgba(48,47,42,0.18)] hover:bg-[#54595E] active:bg-[#302f2a] disabled:bg-[#c7c8d1] disabled:text-white disabled:shadow-none"
               >
                 {resolvedActionLabel}
               </Button>
@@ -456,7 +475,7 @@ function AvatarLogo() {
         autoplay
         loop
         speed={0.5}
-        className="pointer-events-none relative z-[1] h-full w-full scale-[0.72] [filter:brightness(0)_saturate(100%)_invert(18%)_sepia(71%)_saturate(3720%)_hue-rotate(287deg)_brightness(89%)_contrast(96%)]"
+        className="pointer-events-none relative z-[1] h-full w-full scale-[0.72] app-accent-filter"
         renderConfig={{ autoResize: true, devicePixelRatio: 2 }}
         layout={{ fit: "cover", align: [0.5, 0.5] }}
       />
@@ -597,7 +616,7 @@ function Conversation({ messages, inputFieldRef, suggestedExamples, onExampleCli
                   style={{ opacity: messageOpacities[index] || 1 }}
                 >
                   {message.role === 'user' ? (
-                    <div className="max-w-[62%] rounded-[16px] bg-[#8e22a7] px-4 py-4 text-white">
+                    <div className="app-accent-bg max-w-[62%] rounded-[16px] px-4 py-4 text-white">
                       <p className="text-[16px] leading-[1.38] tracking-[-0.01em]">{message.content}</p>
                     </div>
                   ) : (
@@ -645,14 +664,14 @@ function Conversation({ messages, inputFieldRef, suggestedExamples, onExampleCli
                 {visibleExamples.map((example, index) => (
                   <Card
                     key={`example-${index}-${example.slice(0, 20).replace(/\s+/g, '-')}`}
-                    className={`inline-flex w-fit max-w-full rounded-[18px] border border-dashed border-[#c387d2] bg-white/88 px-4 py-3 backdrop-blur-sm transition-all duration-200 ${areSuggestionsDisabled ? 'cursor-not-allowed opacity-55' : 'cursor-pointer hover:-translate-y-0.5 hover:bg-[#f8effb]'}`}
+                    className={`inline-flex w-fit max-w-full rounded-[18px] border border-dashed app-accent-border bg-white/88 px-4 py-3 backdrop-blur-sm transition-all duration-200 ${areSuggestionsDisabled ? 'cursor-not-allowed opacity-55' : 'cursor-pointer hover:-translate-y-0.5 app-accent-soft-hover'}`}
                     onClick={() => {
                       if (!areSuggestionsDisabled) {
                         onExampleClick(example);
                       }
                     }}
                   >
-                    <p className="text-[16px] font-medium leading-[1.35] text-[#6f1385]">
+                    <p className="app-accent-ink text-[16px] font-medium leading-[1.35]">
                       {example}
                     </p>
                   </Card>
@@ -704,22 +723,27 @@ interface AchievementsPopoverProps {
   anchorRef: React.RefObject<HTMLElement | null>;
 }
 
+interface HelpPopoverProps {
+  anchorRef: React.RefObject<HTMLElement | null>;
+  onTakeTour: () => void;
+}
+
 function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: AchievementsPopoverProps) {
   const completedCount = achievements.filter(a => a.completed).length;
   const totalCount = achievements.length;
   const position = useAnchoredPopoverPosition(anchorRef, {
-    width: 800,
-    maxWidth: 800,
-    topOffset: 34,
+    width: 660,
+    maxWidth: 660,
+    topOffset: 12,
   });
 
   return (
     <NotchedPopoverShell position={position} zIndex={220}>
-      <div className="space-y-8">
+      <div className="space-y-2">
         <div>
           <h3 className="text-[40px] font-medium leading-none tracking-[-0.05em] text-[#302f2a]">Achievements</h3>
-          <p className="mt-4 text-[18px] font-medium tracking-[-0.02em] text-[#666975]">
-            Achievements Completed: {completedCount} of {totalCount}
+          <p className="mt-1 text-[18px] font-medium tracking-[-0.02em] text-[#666975]">
+            Achievements attained: {completedCount} of {totalCount}
           </p>
         </div>
         
@@ -727,7 +751,7 @@ function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: Ac
           {achievements.map((achievement) => (
             <div 
               key={achievement.id}
-              className={`inline-flex max-w-full items-center gap-4 rounded-full px-5 py-3 ${
+              className={`inline-flex max-w-full items-center gap-4 rounded-full px-2 py-1 ${
                 achievement.completed 
                   ? 'bg-[#eef8e9]' 
                   : 'bg-[#f2f2f7]'
@@ -735,7 +759,7 @@ function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: Ac
             >
               <div className="flex h-7 w-7 items-center justify-center">
                 <svg className={`h-7 w-7 ${achievement.completed ? 'text-[#4fbd3e]' : 'text-[#c9ccd8]'}`} fill="none" viewBox="0 0 24 24">
-                  <path d={svgPaths.p33d53300} fill="currentColor" />
+                  <path d={achievement.completed ? svgPaths.p3652d000 : svgPaths.p33d53300} fill="currentColor" />
                 </svg>
               </div>
               <p className={`text-[16px] font-medium tracking-[-0.02em] ${achievement.completed ? 'text-[#302f2a]' : 'text-[#4f5562]'}`}>
@@ -743,6 +767,37 @@ function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: Ac
               </p>
             </div>
           ))}
+        </div>
+      </div>
+    </NotchedPopoverShell>
+  );
+}
+
+function HelpPopover({ anchorRef, onTakeTour }: HelpPopoverProps) {
+  const position = useAnchoredPopoverPosition(anchorRef, {
+    width: 300,
+    maxWidth: 300,
+    topOffset: 12,
+  });
+
+  return (
+    <NotchedPopoverShell position={position} zIndex={220}>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <h3 className="text-[18px] font-semibold tracking-[-0.03em] text-[#302f2a]">
+            Unsure where to start?
+          </h3>
+          <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.02em] text-[#666975]">
+            Take a guided tour to learn how to navigate this learning experience.
+          </p>
+        </div>
+        <div className="flex justify-end">
+          <Button
+            onClick={onTakeTour}
+            className="h-10 cursor-pointer rounded-xl bg-[#302f2a] px-4 text-[14px] font-medium text-white shadow-[0_4px_12px_rgba(48,47,42,0.18)] hover:bg-[#54595E] active:bg-[#302f2a]"
+          >
+            Take guided tour
+          </Button>
         </div>
       </div>
     </NotchedPopoverShell>
@@ -774,7 +829,10 @@ function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, on
   return (
     <div className="fixed inset-0 z-[10030] flex items-center justify-center px-8 py-10">
       <div className="absolute inset-0 bg-white/78 backdrop-blur-[8px]" />
-      <div className="relative w-full max-w-[1320px] overflow-hidden rounded-[32px] border border-[#cfd3df] bg-white px-12 py-12 shadow-[0_24px_60px_rgba(48,47,42,0.14)]">
+      <div
+        className="animate-popover-enter relative w-full max-w-[1320px] overflow-hidden rounded-[32px] border border-[#cfd3df] bg-white px-12 py-12 shadow-[0_24px_60px_rgba(48,47,42,0.14)]"
+        style={{ transformOrigin: '50% 50%' }}
+      >
         <button
           type="button"
           onClick={onClose}
@@ -824,7 +882,7 @@ function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, on
             <div className="pt-4">
               <Button
                 onClick={onRestart}
-                className="h-11 rounded-xl bg-[#302f2a] px-5 text-[14px] font-medium text-white hover:bg-[#25241f]"
+                className="h-11 cursor-pointer rounded-xl bg-[#302f2a] px-5 text-[14px] font-medium text-white hover:bg-[#54595E] active:bg-[#302f2a]"
               >
                 Restart lesson
               </Button>
@@ -835,7 +893,7 @@ function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, on
             {achievements.map((achievement) => (
               <div
                 key={achievement.id}
-                className={`inline-flex max-w-full items-center gap-4 rounded-full px-5 py-3 ${
+                className={`inline-flex max-w-full items-center gap-4 rounded-full px-2 py-1 ${
                   achievement.completed ? 'bg-[#eef8e9]' : 'bg-[#f2f2f7]'
                 }`}
               >
@@ -845,7 +903,7 @@ function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, on
                     fill="none"
                     viewBox="0 0 24 24"
                   >
-                    <path d={svgPaths.p33d53300} fill="currentColor" />
+                    <path d={achievement.completed ? svgPaths.p3652d000 : svgPaths.p33d53300} fill="currentColor" />
                   </svg>
                 </div>
                 <p className={`text-[16px] font-medium tracking-[-0.02em] ${achievement.completed ? 'text-[#302f2a]' : 'text-[#4f5562]'}`}>
@@ -870,7 +928,7 @@ function AchievementConfetti({ onComplete }: { onComplete: () => void }) {
   }, [onComplete]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[10020] overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-[10040] overflow-hidden">
       <DotLottieReact
         src={confettiAnimation}
         autoplay
@@ -897,7 +955,7 @@ function AchievementToast({ achievement, onComplete }: AchievementToastProps) {
       <div className="animate-achievement-banner inline-flex max-w-[min(560px,calc(100vw-48px))] items-center gap-4 rounded-full bg-[#dff8d4] px-6 py-4 text-[#1e2419] shadow-[0_10px_24px_rgba(74,173,55,0.16)]">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center text-[#3fb433]">
           <svg className="h-9 w-9" fill="none" viewBox="0 0 24 24">
-            <path d={svgPaths.p33d53300} fill="currentColor" />
+            <path d={svgPaths.p3652d000} fill="currentColor" />
           </svg>
         </div>
         <p className="text-[16px] font-medium tracking-[-0.02em] text-[#1f2519]">
@@ -908,7 +966,7 @@ function AchievementToast({ achievement, onComplete }: AchievementToastProps) {
   );
 }
 
-function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover, tutorialCompleted, achievements, onViewAchievements, authorBadgeRef, authorNeedsAttention = false, className = "" }: { 
+function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover, tutorialCompleted, achievements, onViewAchievements, authorBadgeRef, authorNeedsAttention = false, authorShowPulse = false, className = "" }: { 
   onClose: () => void; 
   onRestart: () => void; 
   onAuthorClick: () => void;
@@ -918,18 +976,34 @@ function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover
   onViewAchievements: () => void;
   authorBadgeRef: React.RefObject<HTMLButtonElement | null>;
   authorNeedsAttention?: boolean;
+  authorShowPulse?: boolean;
   className?: string;
 }) {
   const hasCompletedAchievements = achievements.some(a => a.completed);
   const circularControlClassName =
-    "flex h-12 w-12 items-center justify-center rounded-full bg-[#f3f2f5] text-[#302f2a] transition-colors duration-150 hover:bg-[#cfd2df] active:bg-[#302f2a] active:text-white";
+    "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-[#f3f2f5] text-[#302f2a] transition-colors duration-150 hover:bg-[#cfd2df] active:bg-[#302f2a] active:text-white";
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const achievementsPanelRef = useRef<HTMLDivElement>(null);
   const achievementsTriggerRef = useRef<HTMLButtonElement>(null);
+  const helpPanelRef = useRef<HTMLDivElement>(null);
+  const helpTriggerRef = useRef<HTMLButtonElement>(null);
 
   const handleToggleAchievements = () => {
     onDismissAuthorPopover();
+    setIsHelpOpen(false);
     setIsAchievementsOpen((open) => !open);
+  };
+
+  const handleToggleHelp = () => {
+    onDismissAuthorPopover();
+    setIsAchievementsOpen(false);
+    setIsHelpOpen((open) => !open);
+  };
+
+  const handleTakeGuidedTour = () => {
+    setIsHelpOpen(false);
+    onAuthorClick();
   };
 
   useEffect(() => {
@@ -962,6 +1036,34 @@ function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover
     };
   }, [isAchievementsOpen, onViewAchievements]);
 
+  useEffect(() => {
+    if (!isHelpOpen) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      const target = event.target as Node;
+      const clickedTrigger = helpTriggerRef.current?.contains(target);
+      const clickedPanel = helpPanelRef.current?.contains(target);
+
+      if (!clickedTrigger && !clickedPanel) {
+        setIsHelpOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsHelpOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isHelpOpen]);
+
   return (
     <div className={`fixed inset-x-0 top-0 px-14 pt-7 pointer-events-auto ${isAchievementsOpen ? 'z-[240]' : 'z-[200]'} ${className}`}>
       <div className="flex items-start justify-between gap-8">
@@ -979,14 +1081,14 @@ function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover
             </svg>
           </button>
           <div className="flex items-start gap-2">
-            <AuthorBadge onClick={onAuthorClick} buttonRef={authorBadgeRef} isNudging={authorNeedsAttention} />
+            <AuthorBadge onClick={onAuthorClick} buttonRef={authorBadgeRef} isNudging={authorNeedsAttention} showPulse={authorShowPulse} />
             <div className="flex flex-col gap-2 pt-1">
               <div className="inline-flex max-w-fit items-center gap-2 rounded-[18px] bg-[#eef0f5] px-4 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
                 <span className="text-[16px] font-semibold tracking-[-0.03em] text-[#302f2a]">
                   Intro to prompting
                 </span>
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24">
-                  <path d={svgPaths.p33d53300} fill={tutorialCompleted ? "#45b730" : "#CACBD6"} />
+                  <path d={tutorialCompleted ? svgPaths.p3652d000 : svgPaths.p33d53300} fill={tutorialCompleted ? "#45b730" : "#CACBD6"} />
                 </svg>
               </div>
               <div className="flex items-center gap-3">
@@ -1031,21 +1133,36 @@ function FixedHeader({ onClose, onRestart, onAuthorClick, onDismissAuthorPopover
               </>
             )}
           </div>
-          <button
-            onClick={onDismissAuthorPopover}
-            className={circularControlClassName}
-            type="button"
-          >
-            <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24">
-              <path
-                d="M11 18H13V16H11V18ZM12 6C10.9 6 10 6.9 10 8H8C8 5.79 9.79 4 12 4C14.21 4 16 5.79 16 8C16 9.93 14.64 10.85 13.71 11.48C13.01 11.95 12.5 12.3 12.5 13H10.5C10.5 11.26 11.72 10.44 12.62 9.84C13.4 9.32 14 8.92 14 8C14 6.9 13.1 6 12 6Z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
+          <div className={`relative ${isHelpOpen ? 'z-[230]' : ''}`}>
+            <button
+              ref={helpTriggerRef}
+              onClick={handleToggleHelp}
+              className={circularControlClassName}
+              type="button"
+              aria-expanded={isHelpOpen}
+              aria-haspopup="dialog"
+            >
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24">
+                <path
+                  d="M11 18H13V16H11V18ZM12 6C10.9 6 10 6.9 10 8H8C8 5.79 9.79 4 12 4C14.21 4 16 5.79 16 8C16 9.93 14.64 10.85 13.71 11.48C13.01 11.95 12.5 12.3 12.5 13H10.5C10.5 11.26 11.72 10.44 12.62 9.84C13.4 9.32 14 8.92 14 8C14 6.9 13.1 6 12 6Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+            {isHelpOpen && (
+              <div ref={helpPanelRef}>
+                <HelpPopover
+                  anchorRef={helpTriggerRef}
+                  onTakeTour={handleTakeGuidedTour}
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={() => {
               onDismissAuthorPopover();
+              setIsAchievementsOpen(false);
+              setIsHelpOpen(false);
               onRestart();
             }}
             className={circularControlClassName}
@@ -1080,7 +1197,7 @@ function InputField({ value, onChange, onSend, tokenCount, inputFieldRef, tokenI
 
   return (
     <div ref={inputFieldRef} className="mx-auto w-full max-w-[660px] space-y-3">
-      <div className={`relative rounded-[24px] border px-4 py-0 shadow-[0_10px_24px_rgba(78,88,108,0.06)] backdrop-blur-sm ${disabled ? 'border-[#e5e6ec] bg-[#f4f4f7]' : 'border-[#cfd3df] bg-white/92'}`}>
+      <div className={`relative rounded-[24px] border px-4 py-0 shadow-[0_10px_24px_rgba(78,88,108,0.06)] backdrop-blur-sm ${disabled ? 'cursor-not-allowed border-[#e5e6ec] bg-[#f4f4f7]' : 'border-[#cfd3df] bg-white/92'}`}>
         <div className="flex items-center gap-3">
           <Input
             value={value}
@@ -1102,7 +1219,7 @@ function InputField({ value, onChange, onSend, tokenCount, inputFieldRef, tokenI
               disabled
                 ? 'cursor-not-allowed bg-transparent text-[#44443E]'
                 : hasInput
-                  ? 'bg-[#8e22a7] text-white hover:bg-[#7f1d96]'
+                  ? 'app-accent-bg app-accent-bg-hover text-white'
                   : 'bg-[#ececf2] text-[#4E4D47] hover:bg-[#e2e3ea]'
             }`}
           >
@@ -1144,7 +1261,7 @@ function InputField({ value, onChange, onSend, tokenCount, inputFieldRef, tokenI
           ref={tokenInfoRef}
           type="button"
           onClick={onTokenInfoClick}
-          className="text-[#8e22a7] underline [text-underline-offset:2px] hover:opacity-80"
+          className="app-accent-text underline [text-underline-offset:2px] hover:opacity-80"
         >
           What&apos;s a token?
         </button>
@@ -1197,6 +1314,7 @@ export default function App() {
   const [guideMessage, setGuideMessage] = useState<GuideMessage | null>(null);
   const [isAuthorPopoverLoading, setIsAuthorPopoverLoading] = useState(false);
   const [isAuthorBadgeNudging, setIsAuthorBadgeNudging] = useState(false);
+  const [isAuthorBadgePulsing, setIsAuthorBadgePulsing] = useState(false);
   const [stepActivity, setStepActivity] = useState<Record<number, StepActivity>>({});
   const [isTokenPopoverOpen, setIsTokenPopoverOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -1239,6 +1357,16 @@ export default function App() {
     'I will guide you through a short, step-by-step lesson on better prompting.',
     'You will compare prompts, see how the responses change, and then try a few guided exercises yourself.'
   ];
+  const visibleSpeechInstruction = hasStartedTutorial ? (guideMessage?.body ?? currentTutorialStep?.instruction ?? []) : welcomeInstruction;
+  const visibleSpeechActionLabel = hasStartedTutorial ? guideMessage?.actionLabel : 'Get Started!';
+  const visibleSpeechBlockedActionLabel = hasStartedTutorial ? currentTutorialStep?.blockedActionLabel : undefined;
+  const speechBubbleContentSignature = [
+    currentStep,
+    isAuthorPopoverLoading ? 'loading' : 'ready',
+    visibleSpeechActionLabel ?? '',
+    visibleSpeechBlockedActionLabel ?? '',
+    ...visibleSpeechInstruction,
+  ].join('|');
   const completionElapsedMinutes = (() => {
     if (!tutorialStartedAtRef.current) return 0;
     const endTime = tutorialCompletedAtRef.current ?? Date.now();
@@ -1564,25 +1692,37 @@ export default function App() {
   useEffect(() => {
     if (!shouldNudgeAuthorAvatar) {
       setIsAuthorBadgeNudging(false);
+      setIsAuthorBadgePulsing(false);
       return;
     }
 
-    let releaseTimeout: number | undefined;
+    let releaseNudgeTimeout: number | undefined;
+    let releasePulseTimeout: number | undefined;
     const triggerNudge = () => {
       setIsAuthorBadgeNudging(true);
-      releaseTimeout = window.setTimeout(() => {
+      setIsAuthorBadgePulsing(true);
+
+      releaseNudgeTimeout = window.setTimeout(() => {
         setIsAuthorBadgeNudging(false);
       }, 420);
+
+      releasePulseTimeout = window.setTimeout(() => {
+        setIsAuthorBadgePulsing(false);
+      }, 960);
     };
 
     const intervalId = window.setInterval(triggerNudge, 2000);
 
     return () => {
       window.clearInterval(intervalId);
-      if (releaseTimeout) {
-        window.clearTimeout(releaseTimeout);
+      if (releaseNudgeTimeout) {
+        window.clearTimeout(releaseNudgeTimeout);
+      }
+      if (releasePulseTimeout) {
+        window.clearTimeout(releasePulseTimeout);
       }
       setIsAuthorBadgeNudging(false);
+      setIsAuthorBadgePulsing(false);
     };
   }, [shouldNudgeAuthorAvatar]);
 
@@ -1903,6 +2043,7 @@ export default function App() {
           onViewAchievements={handleViewAchievements}
           authorBadgeRef={authorBadgeRef}
           authorNeedsAttention={isAuthorBadgeNudging}
+          authorShowPulse={isAuthorBadgePulsing}
           className="animate-fade-in loading-delay-300"
         />
       )}
@@ -1959,14 +2100,15 @@ export default function App() {
 
       {currentTutorialStep && showTutorial && showSpeechBubble && loadingState.authorAndBubble && (
         <SpeechBubble
-          instruction={hasStartedTutorial ? (guideMessage?.body ?? currentTutorialStep.instruction) : welcomeInstruction}
+          key={speechBubbleContentSignature}
+          instruction={visibleSpeechInstruction}
           onNext={handleNextStep}
           onClose={handleCloseSpeechBubble}
           currentStep={currentStep}
           totalSteps={tutorialSteps.length}
-          actionLabel={hasStartedTutorial ? guideMessage?.actionLabel : 'Get Started!'}
+          actionLabel={visibleSpeechActionLabel}
           canAdvance={hasStartedTutorial ? canAdvanceTutorialStep : true}
-          blockedActionLabel={hasStartedTutorial ? currentTutorialStep.blockedActionLabel : undefined}
+          blockedActionLabel={visibleSpeechBlockedActionLabel}
           isLoading={isAuthorPopoverLoading}
           anchorRef={authorBadgeRef}
         />
