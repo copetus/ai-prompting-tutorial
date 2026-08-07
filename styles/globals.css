@@ -1,0 +1,503 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500;600&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 14px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #030213;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f3f3f5;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 500;
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #030213;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+  --font-weight-medium: 500;
+  --font-weight-normal: 500;
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      "Nunito",
+      "Segoe UI",
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    margin: 0;
+    background:
+      radial-gradient(circle at 18% 78%, rgba(208, 246, 247, 0.28), transparent 26%),
+      radial-gradient(circle at 78% 86%, rgba(250, 229, 234, 0.26), transparent 30%),
+      linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+    font-weight: var(--font-weight-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  a {
+    color: inherit;
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+/* Custom animations */
+@keyframes gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes achievement-banner {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  12%,
+  82% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes popover-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes author-avatar-nudge {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  32% {
+    transform: scale(0.955) translateY(1px);
+  }
+  68% {
+    transform: scale(1.028) translateY(-1px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes sparkle-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.96);
+    opacity: 0.92;
+  }
+  50% {
+    transform: translate3d(0, -2px, 0) scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkle-spin {
+  0% {
+    transform: rotate(0deg) scale(0.98);
+  }
+  50% {
+    transform: rotate(8deg) scale(1.02);
+  }
+  100% {
+    transform: rotate(0deg) scale(0.98);
+  }
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(0.72);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(1px, -1px, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkle-ring-pulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.24;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.5;
+  }
+}
+
+.animate-gentle-pulse {
+  animation: gentle-pulse 3s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+.animate-achievement-banner {
+  animation: achievement-banner 3s ease-in-out forwards;
+}
+
+.animate-popover-enter {
+  animation: popover-enter 0.36s ease-in-out forwards;
+  opacity: 0;
+}
+
+.animate-author-avatar-nudge {
+  animation: author-avatar-nudge 0.42s cubic-bezier(0.22, 0.75, 0.3, 1);
+}
+
+.sparkle-orbit {
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.sparkle-orbit-main {
+  animation: sparkle-spin 3.6s ease-in-out infinite;
+}
+
+.sparkle-orbit-small {
+  animation: sparkle-twinkle 2.1s ease-in-out infinite;
+  animation-delay: 0.25s;
+}
+
+.sparkle-orbit-dot {
+  animation: sparkle-float 2.6s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.sparkle-orbit-ring {
+  animation: sparkle-ring-pulse 3.2s ease-in-out infinite;
+}
+
+.sparkle-mark {
+  animation: sparkle-spin 3.6s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.sparkle-mark-small {
+  animation: sparkle-twinkle 2.1s ease-in-out infinite;
+  animation-delay: 0.25s;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.sparkle-mark-dot {
+  animation: sparkle-float 2.6s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform, opacity;
+}
+
+/* Loading skeleton styles */
+.skeleton {
+  background: linear-gradient(90deg, 
+    rgba(202, 203, 214, 0.3) 25%, 
+    rgba(202, 203, 214, 0.5) 50%, 
+    rgba(202, 203, 214, 0.3) 75%
+  );
+  background-size: 200px 100%;
+  border-radius: 0.5rem;
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin: 0.25rem 0;
+}
+
+.skeleton-text.w-3\/4 {
+  width: 75%;
+}
+
+.skeleton-text.w-1\/2 {
+  width: 50%;
+}
+
+.skeleton-text.w-full {
+  width: 100%;
+}
+
+/* Staggered loading delays - now with proper opacity handling */
+.loading-delay-0 {
+  animation-delay: 0ms;
+}
+
+.loading-delay-300 {
+  animation-delay: 300ms;
+}
+
+.loading-delay-600 {
+  animation-delay: 600ms;
+}
+
+.loading-delay-900 {
+  animation-delay: 900ms;
+}
+
+.loading-delay-1200 {
+  animation-delay: 1200ms;
+}
+
+/* Ensure animations work properly by setting initial opacity in the animation classes */
+.animate-fade-in.loading-delay-300 {
+  animation: fade-in 0.6s ease-out 0.3s forwards;
+}
+
+.animate-scale-in.loading-delay-600 {
+  animation: scale-in 0.6s ease-out 0.6s forwards;
+}
+
+.animate-slide-up.loading-delay-900 {
+  animation: slide-up 0.6s ease-out 0.9s forwards;
+}
+
+.animate-slide-up.loading-delay-1200 {
+  animation: slide-up 0.6s ease-out 1.2s forwards;
+}
