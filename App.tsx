@@ -382,23 +382,29 @@ function NotchedPopoverShell({
         {notchSide === "top" ? (
           <svg className="h-full w-full" fill="none" viewBox="0 0 77 18">
             <path
-              d="M0 18H21.7L34.1 4.2C36.4 1.7 40.6 1.7 42.9 4.2L55.3 18H77"
+              d="M21.7 18L34.1 4.2C36.4 1.7 40.6 1.7 42.9 4.2L55.3 18Z"
               fill="white"
+            />
+            <path
+              d="M21.7 18L34.1 4.2C36.4 1.7 40.6 1.7 42.9 4.2L55.3 18"
               stroke="#cfd3df"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="1"
             />
           </svg>
         ) : (
           <svg className="h-full w-full" fill="none" viewBox="0 0 77 18">
             <path
-              d="M0 0H21.7L34.1 13.8C36.4 16.3 40.6 16.3 42.9 13.8L55.3 0H77"
+              d="M21.7 0L34.1 13.8C36.4 16.3 40.6 16.3 42.9 13.8L55.3 0Z"
               fill="white"
+            />
+            <path
+              d="M21.7 0L34.1 13.8C36.4 16.3 40.6 16.3 42.9 13.8L55.3 0"
               stroke="#cfd3df"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="1"
             />
           </svg>
         )}
@@ -741,7 +747,7 @@ function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: Ac
     <NotchedPopoverShell position={position} zIndex={220}>
       <div className="space-y-2">
         <div>
-          <h3 className="text-[40px] font-medium leading-none tracking-[-0.05em] text-[#302f2a]">Achievements</h3>
+          <h3 className="text-[24px] font-semibold tracking-[-0.03em] text-[#302f2a]">Achievements</h3>
           <p className="mt-1 text-[18px] font-medium tracking-[-0.02em] text-[#666975]">
             Achievements attained: {completedCount} of {totalCount}
           </p>
@@ -751,7 +757,7 @@ function AchievementsPopover({ achievements, onViewAchievements, anchorRef }: Ac
           {achievements.map((achievement) => (
             <div 
               key={achievement.id}
-              className={`inline-flex max-w-full items-center gap-4 rounded-full px-2 py-1 ${
+              className={`inline-flex max-w-full items-center gap-1 rounded-full px-2 py-1 ${
                 achievement.completed 
                   ? 'bg-[#eef8e9]' 
                   : 'bg-[#f2f2f7]'
@@ -784,7 +790,7 @@ function HelpPopover({ anchorRef, onTakeTour }: HelpPopoverProps) {
     <NotchedPopoverShell position={position} zIndex={220}>
       <div className="space-y-4">
         <div className="space-y-2">
-          <h3 className="text-[18px] font-semibold tracking-[-0.03em] text-[#302f2a]">
+          <h3 className="text-[24px] font-semibold tracking-[-0.03em] text-[#302f2a]">
             Unsure where to start?
           </h3>
           <p className="text-[14px] font-medium leading-[1.45] tracking-[-0.02em] text-[#666975]">
@@ -819,18 +825,12 @@ interface CompletionModalProps {
 
 function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, onRestart }: CompletionModalProps) {
   const completedCount = achievements.filter((achievement) => achievement.completed).length;
-  const formattedHours = Math.floor(elapsedMinutes / 60);
-  const formattedMinutes = elapsedMinutes % 60;
-  const formattedTimeSpent =
-    formattedHours > 0
-      ? `${formattedHours}hr ${formattedMinutes}min`
-      : `${Math.max(1, formattedMinutes)}min`;
 
   return (
     <div className="fixed inset-0 z-[10030] flex items-center justify-center px-8 py-10">
       <div className="absolute inset-0 bg-white/78 backdrop-blur-[8px]" />
       <div
-        className="animate-popover-enter relative w-full max-w-[1320px] overflow-hidden rounded-[32px] border border-[#cfd3df] bg-white px-12 py-12 shadow-[0_24px_60px_rgba(48,47,42,0.14)]"
+        className="animate-popover-enter relative w-full max-w-[760px] overflow-hidden rounded-[32px] border border-[#cfd3df] bg-white px-10 py-8 shadow-[0_24px_60px_rgba(48,47,42,0.14)]"
         style={{ transformOrigin: '50% 50%' }}
       >
         <button
@@ -843,57 +843,26 @@ function CompletionModal({ achievements, tokenCount, elapsedMinutes, onClose, on
           </svg>
         </button>
 
-        <div className="mx-auto max-w-[920px] text-center">
+        <div className="mx-auto max-w-[620px] text-center">
           <h2 className="text-[58px] font-semibold leading-none tracking-[-0.06em] text-[#111111]">Nice Work!</h2>
-          <p className="mx-auto mt-8 max-w-[920px] text-[18px] leading-[1.4] tracking-[-0.02em] text-[#302f2a]">
+          <p className="mx-auto mt-7 max-w-[620px] text-[18px] leading-[1.4] tracking-[-0.02em] text-[#302f2a]">
             You&apos;ve learned the core habits behind stronger prompting. You&apos;re now better equipped to
             write clearer requests, guide outputs, and get more useful responses from AI.
           </p>
-          <div className="mt-10 inline-flex items-center gap-3 rounded-full bg-[#f3f4f7] px-5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.78)]">
+          <div className="mt-7 inline-flex items-center gap-3 rounded-full bg-[#f3f4f7] px-5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.78)]">
             <span className="text-[16px] font-semibold tracking-[-0.03em] text-[#302f2a]">Intro to prompting</span>
             <svg className="h-6 w-6 text-[#45b730]" fill="none" viewBox="0 0 24 24">
-              <path d={svgPaths.p33d53300} fill="currentColor" />
+              <path d={svgPaths.p3652d000} fill="currentColor" />
             </svg>
           </div>
           <p className="mt-4 text-[16px] font-medium tracking-[-0.02em] text-[#1980ff]">
             {completedCount} of {achievements.length} achievements completed
           </p>
-        </div>
-
-        <div className="mt-16 grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.2fr)]">
-          <div className="space-y-10">
-            <h3 className="max-w-[420px] text-[28px] font-semibold leading-[1.2] tracking-[-0.04em] text-[#111111]">
-              Here&apos;s a summary of what you accomplished in this tutorial
-            </h3>
-
-            <div className="space-y-8 text-[#302f2a]">
-              <div>
-                <p className="text-[18px] leading-[1.4] tracking-[-0.02em]">
-                  Time Spent: <span className="font-semibold">{formattedTimeSpent}</span>
-                </p>
-              </div>
-              <div>
-                <p className="text-[18px] leading-[1.4] tracking-[-0.02em]">
-                  Tokens used <span className="font-semibold">{Math.round(tokenCount)} / 5000</span>
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-4">
-              <Button
-                onClick={onRestart}
-                className="h-11 cursor-pointer rounded-xl bg-[#302f2a] px-5 text-[14px] font-medium text-white hover:bg-[#54595E] active:bg-[#302f2a]"
-              >
-                Restart lesson
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap content-start gap-4">
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             {achievements.map((achievement) => (
               <div
                 key={achievement.id}
-                className={`inline-flex max-w-full items-center gap-4 rounded-full px-2 py-1 ${
+                className={`inline-flex max-w-full items-center gap-1 rounded-full px-2 py-1 ${
                   achievement.completed ? 'bg-[#eef8e9]' : 'bg-[#f2f2f7]'
                 }`}
               >
